@@ -24,7 +24,7 @@
                 <template x-for="inputRow in inputRows">
                     <div class="flex flex-row justify-center">
                         <template x-for="number in inputRow">
-                            <input type="number" class="bg-blue-200 text-white font-bold py-4 rounded-full mr-2 size-14 text-center appearance-none" :data-correct="number" x-on:keyup="$event.target.value == number ? $event.target.classList.add('bg-green-500') : $event.target.classList.add('bg-red-500'); $event.target.classList.remove('bg-blue-200')" x-cloak>
+                            <input type="number" class="number-input bg-blue-200 text-white font-bold py-4 rounded-full mr-2 size-14 text-center appearance-none" :data-correct="number" x-on:keyup="parseInt($event.target.value) == parseInt(number) ? $event.target.classList.add('bg-green-500') : $event.target.classList.add('bg-red-500'); $event.target.classList.remove('bg-blue-200')" x-cloak>
                         </template>
                     </div>
                 </template>
@@ -38,11 +38,17 @@
         <div class="flex justify-center mt-10">
             <button @click="generateTower()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Generate Tower</button>
         </div>
+        <div class="flex justify-center mt-2">
+            <label for="starting-box-count">
+                Bases:
+                <input id="starting-box-count" type="text" x-model="startingBoxCount" class="inline bg-blue-500 text-white font-bold py-1 w-8 rounded mr-2 text-center appearance-none" x-cloak>
+            </label>
+        </div>
     </div>
     <script>
         function numberTower() {
             return {
-                startingBoxCount: 8,
+                startingBoxCount: 7,
                 tower: [],
                 inputRows: [],
                 generateTower() {
@@ -65,6 +71,12 @@
                         }
                         this.inputRows.push(row);
                     }
+                    document.querySelectorAll('.number-input').forEach(element => {
+                        element.classList.remove('bg-green-500');
+                        element.classList.remove('bg-red-500');
+                        element.classList.add('bg-blue-200');
+                        element.value = '';
+                    });
                 }
             }
         }
